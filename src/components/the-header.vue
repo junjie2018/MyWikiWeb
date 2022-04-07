@@ -16,6 +16,27 @@
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
       </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-001">
+        <router-link to="/antd/table/antd-table-001">Antd Table 001</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-002">
+        <router-link to="/antd/table/antd-table-002">Antd Table 002</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-003">
+        <router-link to="/antd/table/antd-table-003">Antd Table 003</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-004">
+        <router-link to="/antd/table/antd-table-004">Antd Table 004</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-005">
+        <router-link to="/antd/table/antd-table-005">Antd Table 005</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-006">
+        <router-link to="/antd/table/antd-table-006">Antd Table 006</router-link>
+      </a-menu-item>
+      <a-menu-item key="/antd/table/antd-table-007">
+        <router-link to="/antd/table/antd-table-007">Antd Table 007</router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-header>
 </template>

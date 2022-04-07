@@ -1,26 +1,37 @@
 <template>
   <a-layout>
-    <a-layout-content
-        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
-    >
+    <a-layout-content :style="aLayoutContentStyle">
+      <!-- 搜索区域 -->
       <p>
-        <a-button type="primary" @click="add" size="large">
-          新增
-        </a-button>
+        <a-form :model="param">
+          <a-form-item>
+            <a-input placeholder="名称"/>
+          </a-form-item>
+          <a-form-item>
+            <a-button type="primary">查询</a-button>
+          </a-form-item>
+          <a-form-item>
+            <a-button type="primary">新增</a-button>
+          </a-form-item>
+        </a-form>
       </p>
+
+      <!-- 表格 -->
       <a-table
           :columns="columns"
           :row-key="record => record.id"
           :data-source="ebooks"
           :pagination="pagination"
           :loading="loading"
-          @change="handleTableChange"
-      >
+          @change="handleTableChange">
+
+        <!-- 封面 -->
         <template #cover="{text:cover}">
           <img v-if="cover" :src="cover" alt="avatar">
         </template>
 
-        <template v-slot:action="{ text, record}">
+        <!-- 操作 -->
+        <template #action="{ text, record}">
           <a-space size="small">
             <a-button type="primary" @click="edit(record)">编辑</a-button>
             <a-button type="danger" @click="handleDelete(record.id)">删除</a-button>
@@ -39,32 +50,53 @@
       @ok="handleModalOk"
   >
     <a-form :model="ebook" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+
       <a-form-item label="封面">
-        <a-input v-model:value="ebook.cover"/>
+        <a-input v-model="ebook.cover"/>
       </a-form-item>
+
       <a-form-item label="名称">
-        <a-input v-model:value="ebook.name"/>
+        <a-input v-model="ebook.name"/>
       </a-form-item>
+
       <a-form-item label="分类一">
-        <a-input v-model:value="ebook.category1Id"/>
+        <a-input v-model="ebook.category1Id"/>
       </a-form-item>
+
       <a-form-item label="分类二">
-        <a-input v-model:value="ebook.category2Id"/>
+        <a-input v-model="ebook.category2Id"/>
       </a-form-item>
+
       <a-form-item label="描述">
-        <a-input v-model:value="ebook.description" type="textarea"/>
+        <a-input v-model="ebook.description" type="textarea"/>
       </a-form-item>
+
     </a-form>
   </a-modal>
+
 </template>
 
 <script lang="ts">
+
 import {defineComponent, onMounted, ref} from 'vue';
 import axios from "axios";
 
+// interface QueryParam {
+//
+// }
 
 export default defineComponent({
   name: 'AboutView',
+  data() {
+    return {
+      aLayoutContentStyle: {
+        background: '#ffffff',
+        padding: '24px',
+        margin: 0,
+        minHeight: '280px'
+      }
+    }
+  },
   setup() {
     const ebooks = ref();
     const ebook = ref({
@@ -154,6 +186,7 @@ export default defineComponent({
           .post('/ebook/deleteEBook?eBookId=' + id)
           .then((response) => {
             const data = response.data;
+
             handleQuery({
               current: pagination.value.current,
               pageSize: pagination.value.pageSize
