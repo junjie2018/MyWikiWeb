@@ -21,12 +21,11 @@
 
 <script lang="ts">
 
-// 这个写法是什么意思
-import type {TableProps} from "ant-design-vue";
+import type {TablePaginationConfig, TableProps} from "ant-design-vue";
 import {defineComponent, computed} from 'vue';
-import axios from "axios";
-// 完全不知道
+import axios, {AxiosResponse} from "axios";
 import {usePagination} from "vue-request";
+import {FilterValue, SorterResult} from "ant-design-vue/lib/table/interface";
 
 // 这儿发生了变化，没有了之前的key字段，增加了width和filters字段，不是很懂
 const columns = [
@@ -51,27 +50,28 @@ const columns = [
   },
 ];
 
-// 不熟悉
 type APIParams = {
   results: number;
   page?: number;
   sortField?: string;
   sortOrder?: number;
-  [key: string]: any;
+  [propsName: string]: any;
 };
 
-// 不熟悉
+type ResultType = {
+  gender: 'female' | 'male';
+  name: string;
+  email: string;
+}
+
 type APIResult = {
-  results: {
-    gender: 'female' | 'male';
-    name: string;
-    email: string;
-  }[];
+  results: ResultType[];
 };
 
-const queryData = (params: APIParams) => {
-  // 不熟悉
-  return axios.get<APIResult>('https://randomuser.me/api?noinfo', {params});
+const queryData = (params: APIParams): Promise<AxiosResponse<APIResult>> => {
+  return axios.get<APIResult>(
+      'https://randomuser.me/api?noinfo',
+      {params});
 }
 
 export default defineComponent({
@@ -82,13 +82,15 @@ export default defineComponent({
       loading,
       current,
       pageSize,
-    } = usePagination(queryData, {
-      formatResult: res => res.data.results,
-      pagination: {
-        currentKey: 'page',
-        pageSizeKey: 'results',
-      },
-    });
+    } = usePagination(
+        queryData,
+        {
+          formatResult: res => res.data.results,
+          pagination: {
+            currentKey: 'page',
+            pageSizeKey: 'results',
+          },
+        });
 
     const pagination = computed(() => ({
       total: 200,
@@ -96,15 +98,21 @@ export default defineComponent({
       pageSize: pageSize.value,
     }));
 
-    const handleTableChange: TableProps['onChange'] = (
+    // 这块的写法我不是很熟悉
+    const handleTableChange: TableProps<ResultType>['onChange'] = (
         // 这块我做了改动
-        pag: { pageSize?: number; current?: number },
+        pagination: TablePaginationConfig,
         filters: any,
         sorter: any,
     ) => {
+      console.log('pag', pagination);
+      console.log('filters', filters);
+      console.log('sorter', sorter);
       run({
-        results: pag.pageSize!,
-        page: pag?.current,
+        // 这个写法我不是很熟悉
+        results: pagination.pageSize!,
+        // 这个写法我不是很熟悉
+        page: pagination?.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
         ...filters,
