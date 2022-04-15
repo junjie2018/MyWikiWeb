@@ -105,36 +105,12 @@ const routes: Array<RouteRecordRaw> = [
                 component: VueRequest007
             },
         ]
-    }
-
-    // {
-    //     path: '/antd/table/antd-table-005',
-    //     name: '/antd/table/antd-table-005',
-    //     component: AntdTable001
-    // },
-    // {
-    //     path: '/antd/table/antd-table-006',
-    //     name: '/antd/table/antd-table-006',
-    //     component: AntdTable001
-    // },
-    //
-
-    // {
-    //     path: '/vue-request/vue-request-002',
-    //     name: '/vue-request/vue-request-002',
-    //     component: VueRequest002
-    // },
-
-    // {
-    //     path: '/vue-request/vue-request-008',
-    //     name: '/vue-request/vue-request-008',
-    //     component: VueRequest002
-    // },
-    // {
-    //     path: '/axios/axios-001',
-    //     name: '/axios/axios-001',
-    //     component: Axios001
-    // },
+    },
+    {
+        path: '/axios/axios-001',
+        name: '/axios/axios-001',
+        component: Axios001
+    },
 ]
 
 const router = createRouter({

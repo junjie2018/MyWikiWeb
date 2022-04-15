@@ -1,29 +1,32 @@
 <template>
   <a-layout>
     <a-layout-content :style="aLayoutContentStyle">
-      <!-- 搜索区域 -->
-      <p>
-        <a-form :model="param">
-          <a-form-item>
-            <a-input placeholder="名称"/>
-          </a-form-item>
-          <a-form-item>
-            <a-button type="primary">查询</a-button>
-          </a-form-item>
-          <a-form-item>
-            <a-button type="primary">新增</a-button>
-          </a-form-item>
-        </a-form>
-      </p>
 
       <!-- 表格 -->
       <a-table
+          bordered
           :columns="columns"
           :row-key="record => record.id"
           :data-source="ebooks"
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange">
+
+        <template #title>
+          <a-form
+              layout="inline"
+          >
+            <a-form-item>
+              <a-input placeholder="名称"/>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary">查询</a-button>
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary">新增</a-button>
+            </a-form-item>
+          </a-form>
+        </template>
 
         <!-- 封面 -->
         <template #cover="{text:cover}">
@@ -85,6 +88,30 @@ import axios from "axios";
 //
 // }
 
+const ebooks = [
+  {
+    cover: '',
+    name: '',
+    category1Id: '',
+    category2Id: '',
+    description: ''
+  },
+  {
+    cover: '',
+    name: '',
+    category1Id: '',
+    category2Id: '',
+    description: ''
+  },
+  {
+    cover: '',
+    name: '',
+    category1Id: '',
+    category2Id: '',
+    description: ''
+  }
+]
+
 export default defineComponent({
   name: 'AboutView',
   data() {
@@ -98,101 +125,101 @@ export default defineComponent({
     }
   },
   setup() {
-    const ebooks = ref();
-    const ebook = ref({
-      id: '',
-      name: '',
-      category1Id: '',
-      category2Id: '',
-      description: '',
-      cover: '',
-    });
-    const pagination = ref({
-      current: 1,
-      pageSize: 2,
-      total: 0
-    });
-    const loading = ref(false);
+    // const ebooks = ref();
+    // const ebook = ref({
+    //   id: '',
+    //   name: '',
+    //   category1Id: '',
+    //   category2Id: '',
+    //   description: '',
+    //   cover: '',
+    // });
+    // const pagination = ref({
+    //   current: 1,
+    //   pageSize: 2,
+    //   total: 0
+    // });
+    // const loading = ref(false);
+    //
+    // const modalVisible = ref(false);
+    // const modalLoading = ref(false);
+    //
+    // const handleModalOk = () => {
+    //   modalLoading.value = true;
+    //
+    //   const requestParam = {
+    //     id: ebook.value.id,
+    //     name: ebook.value.name,
+    //     category1Id: ebook.value.category1Id,
+    //     category2Id: ebook.value.category2Id,
+    //     description: ebook.value.description,
+    //     cover: ebook.value.cover,
+    //   }
+    //
+    //   // 新增逻辑
+    //   if (ebook.value.id === '') {
+    //     axios
+    //         .post('/ebook/createEBook', requestParam)
+    //         .then((response) => {
+    //           const data = response.data;
+    //           if (data.code === '0') {
+    //             modalVisible.value = false;
+    //             modalLoading.value = false;
+    //           }
+    //           handleQuery({
+    //             current: pagination.value.current,
+    //             pageSize: pagination.value.pageSize
+    //           });
+    //         })
+    //   }
+    //   // 编辑逻辑
+    //   else {
+    //     axios
+    //         .post('/ebook/updateEBook', requestParam)
+    //         .then((response) => {
+    //           const data = response.data;
+    //           if (data.code === '0') {
+    //             modalVisible.value = false;
+    //             modalLoading.value = false;
+    //           }
+    //           handleQuery({
+    //             current: pagination.value.current,
+    //             pageSize: pagination.value.pageSize
+    //           });
+    //         })
+    //   }
+    // }
+    //
+    // const edit = (record: any) => {
+    //   modalVisible.value = true;
+    //   ebook.value = record;
+    //   console.log(record);
+    // }
+    //
+    // const add = () => {
+    //   modalVisible.value = true;
+    //   ebook.value = {
+    //     id: '',
+    //     name: '',
+    //     category1Id: '',
+    //     category2Id: '',
+    //     description: '',
+    //     cover: '',
+    //   };
+    // }
 
-    const modalVisible = ref(false);
-    const modalLoading = ref(false);
-
-    const handleModalOk = () => {
-      modalLoading.value = true;
-
-      const requestParam = {
-        id: ebook.value.id,
-        name: ebook.value.name,
-        category1Id: ebook.value.category1Id,
-        category2Id: ebook.value.category2Id,
-        description: ebook.value.description,
-        cover: ebook.value.cover,
-      }
-
-      // 新增逻辑
-      if (ebook.value.id === '') {
-        axios
-            .post('/ebook/createEBook', requestParam)
-            .then((response) => {
-              const data = response.data;
-              if (data.code === '0') {
-                modalVisible.value = false;
-                modalLoading.value = false;
-              }
-              handleQuery({
-                current: pagination.value.current,
-                pageSize: pagination.value.pageSize
-              });
-            })
-      }
-      // 编辑逻辑
-      else {
-        axios
-            .post('/ebook/updateEBook', requestParam)
-            .then((response) => {
-              const data = response.data;
-              if (data.code === '0') {
-                modalVisible.value = false;
-                modalLoading.value = false;
-              }
-              handleQuery({
-                current: pagination.value.current,
-                pageSize: pagination.value.pageSize
-              });
-            })
-      }
-    }
-
-    const edit = (record: any) => {
-      modalVisible.value = true;
-      ebook.value = record;
-      console.log(record);
-    }
-
-    const add = () => {
-      modalVisible.value = true;
-      ebook.value = {
-        id: '',
-        name: '',
-        category1Id: '',
-        category2Id: '',
-        description: '',
-        cover: '',
-      };
-    }
-
-    const handleDelete = (id: any) => {
-      axios
-          .post('/ebook/deleteEBook?eBookId=' + id)
-          .then((response) => {
-            const data = response.data;
-
-            handleQuery({
-              current: pagination.value.current,
-              pageSize: pagination.value.pageSize
-            });
-          })
-    }
+    // const handleDelete = (id: any) => {
+    //   axios
+    //       .post('/ebook/deleteEBook?eBookId=' + id)
+    //       .then((response) => {
+    //         const data = response.data;
+    //
+    //         handleQuery({
+    //           current: pagination.value.current,
+    //           pageSize: pagination.value.pageSize
+    //         });
+    //       })
+    // }
 
     const columns = [
       {
@@ -235,54 +262,55 @@ export default defineComponent({
 
 
     // 数据查询
-    const handleQuery = (params: any) => {
-      loading.value = true;
-      const requestParam = {
-        current: params.current,
-        pageSize: params.pageSize,
-        condition: {
-          // name: "spring"
-        }
-      }
-      axios
-          .post('/ebook/pageEBook', requestParam)
-          .then((response) => {
-            loading.value = false;
-            ebooks.value = response.data.data.records;
-            pagination.value.current = requestParam.current;
-            console.log(ebooks);
-          })
-    }
+    // const handleQuery = (params: any) => {
+    //   loading.value = true;
+    //   const requestParam = {
+    //     current: params.current,
+    //     pageSize: params.pageSize,
+    //     condition: {
+    //       // name: "spring"
+    //     }
+    //   }
+    //   axios
+    //       .post('/ebook/pageEBook', requestParam)
+    //       .then((response) => {
+    //         loading.value = false;
+    //         ebooks.value = response.data.data.records;
+    //         pagination.value.current = requestParam.current;
+    //         console.log(ebooks);
+    //       })
+    // }
 
     // 表格点击页码时触发
-    const handleTableChange = (pagination: any) => {
-      console.log("自带的分页参数：", pagination);
-      handleQuery({
-        current: pagination.current,
-        pageSize: pagination.pageSize
-      });
-    }
-
-    onMounted(() => {
-      handleQuery({
-        current: 1,
-        pageSize: 2
-      })
-    });
+    // const handleTableChange = (pagination: any) => {
+    //   console.log("自带的分页参数：", pagination);
+    //   handleQuery({
+    //     current: pagination.current,
+    //     pageSize: pagination.pageSize
+    //   });
+    // }
+    //
+    // onMounted(() => {
+    //   handleQuery({
+    //     current: 1,
+    //     pageSize: 2
+    //   })
+    // });
 
     return {
-      ebook,
       ebooks,
-      pagination,
+      // ebook,
+      // ebooks,
+      // pagination,
       columns,
-      loading,
-      handleTableChange,
-      modalVisible,
-      modalLoading,
-      handleModalOk,
-      edit,
-      add,
-      handleDelete
+      // loading,
+      // handleTableChange,
+      // modalVisible,
+      // modalLoading,
+      // handleModalOk,
+      // edit,
+      // add,
+      // handleDelete
     }
   }
 });
