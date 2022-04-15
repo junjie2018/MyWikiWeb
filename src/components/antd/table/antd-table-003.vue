@@ -76,21 +76,15 @@ const queryData = (params: APIParams): Promise<AxiosResponse<APIResult>> => {
 
 export default defineComponent({
   setup() {
-    const {
-      data: dataSource,
-      run,
-      loading,
-      current,
-      pageSize,
-    } = usePagination(
-        queryData,
-        {
-          formatResult: res => res.data.results,
-          pagination: {
-            currentKey: 'page',
-            pageSizeKey: 'results',
-          },
-        });
+    const {data: dataSource, run, loading, current, pageSize} =
+        usePagination(queryData,
+            {
+              formatResult: res => res.data.results,
+              pagination: {
+                currentKey: 'page',
+                pageSizeKey: 'results',
+              },
+            });
 
     const pagination = computed(() => ({
       total: 200,
@@ -98,9 +92,7 @@ export default defineComponent({
       pageSize: pageSize.value,
     }));
 
-    // 这块的写法我不是很熟悉
     const handleTableChange: TableProps<ResultType>['onChange'] = (
-        // 这块我做了改动
         pagination: TablePaginationConfig,
         filters: any,
         sorter: any,
@@ -109,9 +101,7 @@ export default defineComponent({
       console.log('filters', filters);
       console.log('sorter', sorter);
       run({
-        // 这个写法我不是很熟悉
-        results: pagination.pageSize!,
-        // 这个写法我不是很熟悉
+        results: pagination.pageSize,
         page: pagination?.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
