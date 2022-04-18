@@ -2,6 +2,7 @@ import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import HomeView from '../views/home-view.vue';
 import AboutView from '../views/about-view.vue';
 import AdminEBook from '../views/admin/admin-ebook.vue';
+import AdminCategory from '../views/admin/admin-category.vue';
 
 import AntdTable001 from "@/components/antd/table/antd-table-001.vue";
 import AntdTable002 from "@/components/antd/table/antd-table-002.vue";
@@ -36,6 +37,14 @@ const routes: Array<RouteRecordRaw> = [
         path: '/admin/ebook',
         name: '/admin/ebook',
         component: AdminEBook
+    },
+    {
+        path: '/admin/category',
+        name: 'AdminCategory',
+        component: AdminCategory,
+        meta: {
+            loginRequire: true
+        }
     },
     {
         path: '/antd',
